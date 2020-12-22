@@ -120,13 +120,13 @@ end
 
 function template.kind(value)
     kind(value)
-    if value == "ConsoleApp" or value == "WindowedApp" then
-        if template.manifest_path then
-            filter "action:vs*"
-                files(template.manifest_path)
-            filter()
+    filter "action:vs*"
+        if value == "ConsoleApp" or value == "WindowedApp" then
+            if template.manifest_path then
+                    files(template.manifest_path)
+            end
         end
-    end
+    filter {}
 end
 
 return template
