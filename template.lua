@@ -121,9 +121,9 @@ end
 function template.kind(value)
     kind(value)
     if value == "ConsoleApp" or value == "WindowedApp" then
-        if manifest_path then
+        if template.manifest_path then
             filter "action:vs*"
-                files(manifest_path)
+                files(template.manifest_path)
             filter()
         end
     end
