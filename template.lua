@@ -35,18 +35,18 @@ function template.workspace(name) workspace "misc_test"
     filter {}
 
     newoption {
-    	trigger = "output_directory",
-    	description = "A directory path for output binaries to be moved to.",
-    	value = "path"
+        trigger = "output_directory",
+        description = "A directory path for output binaries to be moved to.",
+        value = "path"
     }
     newoption {
-    	trigger = "build_directory",
-    	description = "A directory path for temporary files to be generated in.",
-    	value = "path"
+        trigger = "build_directory",
+        description = "A directory path for temporary files to be generated in.",
+        value = "path"
     }
     
     targetdir (_OPTIONS["output_directory"]
-    	or "output/%{cfg.system}_%{cfg.buildcfg}")
+        or "output/%{cfg.system}_%{cfg.buildcfg}")
     location (_OPTIONS["build_directory"] or "build")
 end
 
@@ -56,16 +56,16 @@ end
 
 function template.force_cppdialect(value)
     cppdialect(value)
-	if value == "C++latest" then
-		filter "action:xcode*"
-			xcodebuildsettings {
-				["CLANG_CXX_LANGUAGE_STANDARD"] = "c++2a";
-			}
-			targetdir(_OPTIONS["output_directory"] or "output/%{cfg.system}_%{cfg.buildcfg}")
-		filter "action:gmake*"
-			buildoptions "-std=c++2a"
-		filter {}
-	end
+    if value == "C++latest" then
+        filter "action:xcode*"
+            xcodebuildsettings {
+                ["CLANG_CXX_LANGUAGE_STANDARD"] = "c++2a";
+            }
+            targetdir(_OPTIONS["output_directory"] or "output/%{cfg.system}_%{cfg.buildcfg}")
+        filter "action:gmake*"
+            buildoptions "-std=c++2a"
+        filter {}
+    end
 end
 
 function template.project(name) project(name)
@@ -77,12 +77,12 @@ function template.project(name) project(name)
     warnings "Extra"
 
     filter "action:vs*"
-	    buildoptions "/utf-8"
+        buildoptions "/utf-8"
     filter {}
 
     includedirs {
-    	"include",
-    	"source"
+        "include",
+        "source"
     }
     
     if template.vpaths then
@@ -98,10 +98,10 @@ function template.files(name, prefix)
             prefix .. "/" .. name .. "/source/**.cpp"
         }
     else
-		files {
-			"include/" .. name .. "/**.hpp",
-			"source/" .. name .. "/**.hpp",
-			"source/" .. name .. "/**.cpp"
+        files {
+            "include/" .. name .. "/**.hpp",
+            "source/" .. name .. "/**.hpp",
+            "source/" .. name .. "/**.cpp"
         }
     end
 end
@@ -113,8 +113,8 @@ function template.pch(name, prefix)
         pchsource(prefix .. "/" .. name .. "/source/precompiled/" .. name .. ".cpp")
         files { prefix .. "/" .. name .. "/source/precompiled/" .. name .. ".*pp" }
     else
-		pchsource("source/precompiled/" .. name .. ".cpp")
-		files { "source/precompiled/" .. name .. ".*pp" }
+        pchsource("source/precompiled/" .. name .. ".cpp")
+        files { "source/precompiled/" .. name .. ".*pp" }
     end
 end
 
