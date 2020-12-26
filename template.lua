@@ -86,7 +86,15 @@ function template.project(name) project(name)
     }
     
     if template.vpaths then
-        vpaths(template.vpaths)
+        if type(template.vpaths) == "table" then
+            vpaths(template.vpaths)
+        elseif type(template.vpaths) == "function" then
+            vpaths(template.vpaths(name))
+        else
+            print("Error: Unsupported 'template.vpaths' value ignored. "
+                .. "It has to either be a static 'vpaths' table or "
+                .. "a function accepting project name and returning a 'vpaths' table.")
+        end
     end
 end
 
@@ -96,6 +104,10 @@ function template.files(name, prefix)
             prefix .. "/" .. name .. "/include/**.hpp",
             prefix .. "/" .. name .. "/source/**.hpp",
             prefix .. "/" .. name .. "/source/**.cpp"
+        }
+        includedirs {
+            prefix .. "/" .. name .. "/include/",
+            prefix .. "/" .. name .. "/source/"
         }
     else
         files {
@@ -112,6 +124,7 @@ function template.pch(name, prefix)
     if prefix then
         pchsource(prefix .. "/" .. name .. "/source/precompiled/" .. name .. ".cpp")
         files { prefix .. "/" .. name .. "/source/precompiled/" .. name .. ".*pp" }
+        includedirs { prefix .. "/" .. name .. "/source/" }
     else
         pchsource("source/precompiled/" .. name .. ".cpp")
         files { "source/precompiled/" .. name .. ".*pp" }
@@ -123,7 +136,7 @@ function template.kind(value)
     filter "action:vs*"
         if value == "ConsoleApp" or value == "WindowedApp" then
             if template.manifest_path then
-                    files(template.manifest_path)
+                files(template.manifest_path)
             end
         end
     filter {}
