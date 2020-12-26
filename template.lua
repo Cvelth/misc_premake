@@ -12,7 +12,7 @@ function template.third_party(filename)
     depends_on_everything = third_party.depends_on_everything
 end
 
-function template.workspace(name) workspace "misc_test"
+function template.workspace(name) workspace(name)
     configurations { "release", "debug" }
     architecture "x86_64"
     
@@ -54,7 +54,7 @@ function template.location(suffix)
     location ((_OPTIONS["build_directory"] or "build") .. (suffix or ""))
 end
 
-function template.force_cppdialect(value)
+local function local_force_cppdialect(value)
     cppdialect(value)
     if value == "C++latest" then
         filter "action:xcode*"
@@ -72,7 +72,7 @@ function template.project(name) project(name)
     targetdir (_OPTIONS["output_directory"] or "output/%{cfg.system}_%{cfg.buildcfg}")
     template.location ""
     language(template.language)
-    template.force_cppdialect(template.cppdialect)
+    local_force_cppdialect(template.cppdialect)
     flags "FatalWarnings"
     warnings "Extra"
 
