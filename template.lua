@@ -51,7 +51,7 @@ function template.workspace(name) workspace(name)
 end
 
 function template.location(suffix)
-    location ((_OPTIONS["build_directory"] or "build") .. (suffix or ""))
+    location ((_OPTIONS["build_directory"] or "build") .. "/" .. (suffix or ""))
 end
 
 local function local_force_cppdialect(value)
