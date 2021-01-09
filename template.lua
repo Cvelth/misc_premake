@@ -99,22 +99,30 @@ function template.project(name) project(name)
 end
 
 function template.files(name, prefix)
-    if prefix then
+    if not name then
         files {
-            prefix .. "/" .. name .. "/include/**.hpp",
-            prefix .. "/" .. name .. "/source/**.hpp",
-            prefix .. "/" .. name .. "/source/**.cpp"
-        }
-        includedirs {
-            prefix .. "/" .. name .. "/include/",
-            prefix .. "/" .. name .. "/source/"
+            "include/**.hpp",
+            "source/**.hpp",
+            "source/**.cpp"
         }
     else
-        files {
-            "include/" .. name .. "/**.hpp",
-            "source/" .. name .. "/**.hpp",
-            "source/" .. name .. "/**.cpp"
-        }
+        if prefix then
+            files {
+                prefix .. "/" .. name .. "/include/**.hpp",
+                prefix .. "/" .. name .. "/source/**.hpp",
+                prefix .. "/" .. name .. "/source/**.cpp"
+            }
+            includedirs {
+                prefix .. "/" .. name .. "/include/",
+                prefix .. "/" .. name .. "/source/"
+            }
+        else
+            files {
+                "include/" .. name .. "/**.hpp",
+                "source/" .. name .. "/**.hpp",
+                "source/" .. name .. "/**.cpp"
+            }
+        end
     end
 end
 
