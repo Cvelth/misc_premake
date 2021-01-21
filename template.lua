@@ -116,12 +116,18 @@ function template.files(name, prefix)
                 prefix .. "/" .. name .. "/include/",
                 prefix .. "/" .. name .. "/source/"
             }
+            filter { "files:" .. prefix .. "/" .. name .. "/source/no_pch/**.cpp or " ..
+                                 prefix .. "/" .. name .. "/source/**/no_pch/**.cpp" }
+                flags "NoPCH"
         else
             files {
                 "include/" .. name .. "/**.hpp",
                 "source/" .. name .. "/**.hpp",
                 "source/" .. name .. "/**.cpp"
             }
+            filter { "files:source/" .. name .. "/no_pch/**.cpp or " ..
+                           "source/" .. name .. "/**/no_pch/**.cpp" }
+                flags "NoPCH"
         end
     end
 end
